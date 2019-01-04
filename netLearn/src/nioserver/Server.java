@@ -1,5 +1,6 @@
 package nioserver;
 
+import java.io.IOException;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -21,7 +22,7 @@ public class Server {
         this.messageProcessor = messageProcessor;
     }
 
-    public void start(){
+    public void start() throws IOException {
         Queue socketQueue = new ArrayBlockingQueue(1024);
 
         this.socketAccepter = new SocketAccepter(tcpPort,socketQueue);
@@ -29,7 +30,13 @@ public class Server {
         MessageBuffer readMessageBuffer = new MessageBuffer();
         MessageBuffer writeMessageBuffer = new MessageBuffer();
 
-        this.socketProcessor = new SocketProcessor();
+        this.socketProcessor = new SocketProcessor(socketQueue,readMessageBuffer,writeMessageBuffer,messageReaderFactory,messageProcessor);
+
+        Thread accepterThread = new Thread(this.socketAccepter);
+        Thread processorThread = new Thread(this.socketProcessor);
+
+        accepterThread.start();
+        processorThread.start();
 
     }
 }
