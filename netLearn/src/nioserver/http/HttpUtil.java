@@ -14,6 +14,7 @@ public class HttpUtil {
 
         // parse HTTP request line
         int endOfFirstLine = findNextLineBreak(src,startIndex,endIndex);
+        // test
         if (endOfFirstLine == -1) return -1;
 
         // parse HTTP header line
