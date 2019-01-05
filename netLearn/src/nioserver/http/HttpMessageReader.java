@@ -4,6 +4,7 @@ import nioserver.*;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ import java.util.List;
 public class HttpMessageReader implements IMessageReader {
 
     private MessageBuffer messageBuffer = null;
-    private List<Message> completeMessages = null;
+    private List<Message> completeMessages = new ArrayList<>();
     private Message nextMessage = null;
 
     public HttpMessageReader() {

@@ -92,8 +92,8 @@ public class HttpUtil {
     }
 
     private static boolean matches(byte[] src, int offset, byte[] value) {
-        for (int i = offset; i < value.length; i++){
-            if (src[i] != value[i]){
+        for (int i = offset,n = 0; n < value.length; i++,n++){
+            if (src[i] != value[n]){
                 return false;
             }
         }
@@ -103,7 +103,7 @@ public class HttpUtil {
     private static int findNextLineBreak(byte[] src, int startIndex, int endIndex) {
         for (int index = startIndex; index < endIndex; index++){
             if (src[index] == '\n'){
-                if (src[index] == '\r'){
+                if (src[index-1] == '\r'){
                     return index;
                 }
             }

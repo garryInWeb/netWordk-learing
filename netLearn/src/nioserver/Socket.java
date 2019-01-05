@@ -35,8 +35,15 @@ public class Socket {
         return totalBytesRead;
     }
 
-    public int write(ByteBuffer byteBuffer) {
+    public int write(ByteBuffer byteBuffer) throws IOException {
+        int bytesWrite = this.socketChannel.write(byteBuffer);
+        int totalBtesRead = bytesWrite;
 
-        return 0;
+        while(bytesWrite > 0 && byteBuffer.hasRemaining()){
+            bytesWrite = this.socketChannel.write(byteBuffer);
+            totalBtesRead += bytesWrite;
+        }
+
+        return totalBtesRead;
     }
 }

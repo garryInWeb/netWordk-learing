@@ -93,7 +93,7 @@ public class SocketProcessor implements Runnable{
         }
     }
 
-    private void registerNonEmptySockets() throws ClosedChannelException {
+    private void  registerNonEmptySockets() throws ClosedChannelException {
         for (Socket socket : emptyToNonEmptySockets){
             socket.socketChannel.register(this.writeSelector,SelectionKey.OP_WRITE,socket);
         }
@@ -122,6 +122,7 @@ public class SocketProcessor implements Runnable{
                     emptyToNonEmptySockets.add(socket);
                 }
             }
+            outMessage = this.outboundMessageQueue.poll();
         }
     }
 

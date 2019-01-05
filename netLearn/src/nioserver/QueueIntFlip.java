@@ -5,7 +5,7 @@ package nioserver;
  */
 public class QueueIntFlip {
 
-    public int[] element = null;
+    public int[] elements = null;
 
     private boolean flipped = false;
     private int capacity = 0;
@@ -14,13 +14,13 @@ public class QueueIntFlip {
 
     public QueueIntFlip(int capacity) {
         this.capacity = capacity;
-        this.element = new int[capacity];
+        this.elements = new int[capacity];
     }
 
     public int take(){
         if (!flipped){
             if (readPos < writePos){
-                return element[readPos++];
+                return elements[readPos++];
             }else{
                 return -1;
             }
@@ -30,13 +30,40 @@ public class QueueIntFlip {
                 flipped = false;
 
                 if (readPos < writePos){
-                    return element[readPos];
+                    return elements[readPos];
                 }else{
                     return -1;
                 }
             } else{
-                return element[readPos];
+                return elements[readPos];
             }
         }
+    }
+
+    public boolean put(int element) {
+        if(!flipped){
+            if(writePos == capacity){
+                writePos = 0;
+                flipped = true;
+
+                if(writePos < readPos){
+                    elements[writePos++] = element;
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                elements[writePos++] = element;
+                return true;
+            }
+        } else {
+            if(writePos < readPos ){
+                elements[writePos++] = element;
+                return true;
+            } else {
+                return false;
+            }
+        }
+
     }
 }

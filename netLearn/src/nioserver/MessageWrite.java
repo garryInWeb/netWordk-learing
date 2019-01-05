@@ -1,5 +1,6 @@
 package nioserver;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class MessageWrite {
         writeQueue.add(message);
     }
 
-    public void write(Socket socket, ByteBuffer byteBuffer){
+    public void write(Socket socket, ByteBuffer byteBuffer) throws IOException {
         byteBuffer.put(this.messageInProgress.shareArray,this.messageInProgress.offset + bytesWritten,this.messageInProgress.length - bytesWritten);
         byteBuffer.flip();
 
